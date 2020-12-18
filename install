@@ -1,0 +1,94 @@
+#!/bin/bash
+
+# Void Post Installation
+# This is a simple script to make your Void Linux post installation process. Feel free to make changes as you want.
+
+# Update the system
+sudo xbps-install -Suy
+
+# Enabling non free repositories
+sudo xbps-install -y void-repo-nonfree 
+
+# Create user directories
+sudo xbps-install -y xdg-user-dirs
+xdg-user-dirs-update
+sudo xbps-remove -y xdg-user-dirs
+
+# Install NetworkManager
+sudo xbps-install -y NetworkManager 
+sudo ln -s /etc/sv/NetworkManager /var/service
+sudo ln -s /etc/sv/dbus /var/service
+sudo rm /var/service/dhcpcd
+
+# Configure Audio
+sudo xbps-install -y alsa-utils pulseaudio
+sudo ln -s /etc/sv/alsa /var/service
+
+# Install Intel Graphics drivers wiht xorg-minimal
+sudo xbps-install -y mesa-dri vulkan-loader mesa-vulkan-intel intel-video-accel xorg-minimal
+
+# Install a font
+sudo xbps-install -y dejavu-fonts-ttf
+
+# Other essentials
+sudo xbps-install -y git wget curl base-devel neofetch
+
+
+##### Suckless #####
+
+# Dependancies
+sudo xbps-install -y libX11-devel libXft-devel libXinerama-devel
+
+mkdir -p ~/void_rise/original
+cd ~/void_rise/original
+
+git clone git://git.suckless.org/dwm
+git clone git://git.suckless.org/dmenu
+git clone git://git.suckless.org/st
+
+cp -r * ~/void_rise
+cd ../dwm
+sudo make clean install
+cd ../st
+sudo make clean install
+cd ../dmenu
+sudo make clean install
+cd
+
+echo "exec dwm" > ~/.xinitrc
+
+# libxft-bgra
+
+# Dependancies
+sudo xbps-install -y libX11 libXext libXrender freetype fontconfig xorg-util-macros
+
+cd ~/void_rise
+git clone https://github.com/uditkarode/libxft-bgra
+cd libxft-bgra
+sh autogen.sh --sysconfdir=/etc --prefix=/usr --mandir=/usr/share/man
+sudo make install
+
+sudo xbps-install -y noto-fonts-emoji
+
+###
+
+# Install TLP
+sudo xbps-install -y tlp 
+sudo ln -s /etc/sv/tlp /var/service
+
+# Install nvidia 
+# sudo xbps-install -y nvidia
+
+# Some other packages
+sudo xbps-install -y mpc brightnessctl picom xrdb nitrogen xinput xsetroot fontmanager chromium mpv mpd ncmpcpp nethogs vnstat flameshot sxhkd ntfs-3g htop neofetch 
+
+sudo ln -s /etc/sv/vnstatd /var/service
+
+# sudo xbps-install -y libreoffice firefox virtualbox-ose qbittorrent telegram-desktop nextcloud-client xarchiver zip unzip unrar p7zip kitty ranger zsh gimp thunderbird obs mesa-demos blender audacity zathura zathura-pdf-mupdf
+
+###
+echo "Xft.dpi:  125" > ~/.Xresources
+
+sudo mkdir /mnt/hdd
+sudo mount /dev/sda1 /mnt/hdd
+
