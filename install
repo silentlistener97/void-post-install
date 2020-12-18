@@ -80,15 +80,7 @@ sudo ln -s /etc/sv/tlp /var/service
 # sudo xbps-install -y nvidia
 
 # Some other packages
-sudo xbps-install -y mpc brightnessctl picom xrdb nitrogen xinput xsetroot fontmanager chromium mpv mpd ncmpcpp nethogs vnstat flameshot sxhkd ntfs-3g htop neofetch 
-
-sudo ln -s /etc/sv/vnstatd /var/service
+# sudo xbps-install -y mpc brightnessctl picom xrdb nitrogen xinput xsetroot fontmanager chromium mpv mpd ncmpcpp nethogs vnstat flameshot sxhkd ntfs-3g htop neofetch 
 
 # sudo xbps-install -y libreoffice firefox virtualbox-ose qbittorrent telegram-desktop nextcloud-client xarchiver zip unzip unrar p7zip kitty ranger zsh gimp thunderbird obs mesa-demos blender audacity zathura zathura-pdf-mupdf
-
-###
-echo "Xft.dpi:  125" > ~/.Xresources
-
-sudo mkdir /mnt/hdd
-sudo mount /dev/sda1 /mnt/hdd
 
